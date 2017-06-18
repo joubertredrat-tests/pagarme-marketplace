@@ -1,0 +1,19 @@
+admin_manufacturer_index:
+    path:     /
+    defaults: { _controller: "AppBundle:Manufacturer:index" }
+    methods:  GET
+
+admin_manufacturer_show:
+    path:     /{id}/show
+    defaults: { _controller: "AppBundle:Manufacturer:show" }
+    methods:  GET
+
+admin_manufacturer_new:
+    path:     /new
+    defaults: { _controller: "AppBundle:Manufacturer:new" }
+    methods:  [GET, POST]
+
+admin_manufacturer_delete:
+    path: /{id}/delete
+    defaults: { _controller: "AppBundle:Manufacturer:delete" }
+    methods:  GET

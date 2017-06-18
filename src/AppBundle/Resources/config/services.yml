@@ -1,0 +1,6 @@
+services:
+    app.manufacturer.repository:
+        class: AppBundle\Repository\ManufacturerRepository
+        factory: ["@doctrine.orm.entity_manager", getRepository]
+        arguments:
+            - AppBundle\Entity\Manufacturer

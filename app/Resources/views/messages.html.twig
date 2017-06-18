@@ -1,0 +1,11 @@
+{% block messages %}
+
+    {% for label, flashes in app.session.flashbag.all %}
+        {% for flash in flashes %}
+            <div class="ui {{ label }} message">
+                {{ flash }}
+            </div>
+        {% endfor %}
+    {% endfor %}
+
+{% endblock %}
