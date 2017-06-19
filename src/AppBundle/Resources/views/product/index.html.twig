@@ -1,48 +1,50 @@
-{% extends 'base.html.twig' %}
+{% extends '@App/base.html.twig' %}
 
 {% block body %}
 
 <div class="column">
     <div class="row">
-        {{ include('menu.html.twig') }}
+        {{ include('@App/menu.html.twig') }}
     </div>
 
     <div class="row">
-        {{ include('messages.html.twig') }}
+        {{ include('@App/messages.html.twig') }}
     </div>
 
     <div class="row">
-        <h1>Manufacturers</h1>
+        <h1>Products</h1>
     </div>
 
     <div class="row">
         <table class="ui celled table">
             <thead>
                 <tr>
-                    <th>ID</th>
+                    <th>Id</th>
                     <th>Name</th>
-                    <th>Products</th>
+                    <th>Price</th>
+                    <th>Manufacturer</th>
                     <th>Created at</th>
                     <th>Updated at</th>
                     <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
-            {% for manufacturer in manufacturers %}
+            {% for product in products %}
                 <tr>
-                    <td class="collapsing">{{ manufacturer.id }}</td>
-                    <td>{{ manufacturer.name }}</td>
-                    <td>{{ manufacturer.countProducts }}</td>
-                    <td>{{ manufacturer.createdAt|date('d/m/Y H:i:s') }}</td>
-                    <td>{% if manufacturer.updatedAt %} {{ manufacturer.updatedAt|date('d/m/Y H:i:s') }} {% endif %}</td>
+                    <td class="collapsing">{{ product.id }}</td>
+                    <td>{{ product.name }}</td>
+                    <td>{{ product.price }}</td>
+                    <td>{% if product.manufacturer %} {{ product.manufacturer.name() }} {% endif %}</td>
+                    <td>{{ product.createdAt|date('d/m/Y H:i:s') }}</td>
+                    <td>{% if product.updatedAt %} {{ product.updatedAt|date('d/m/Y H:i:s') }} {% endif %}</td>
                     <td class="collapsing">
-                        <a href="{{ path('admin_manufacturer_edit', { 'id': manufacturer.id }) }}">
+                        <a href="{{ path('admin_product_edit', { 'id': product.id }) }}">
                             <div class="ui animated button orange" tabindex="0">
                                 <div class="visible content"><i class="pencil icon"></i></div>
                                 <div class="hidden content">Edit</div>
                             </div>
                         </a>
-                        <a href="{{ path('admin_manufacturer_delete', { 'id': manufacturer.id }) }}">
+                        <a href="{{ path('admin_product_delete', { 'id': product.id }) }}">
                             <div class="ui animated button negative" tabindex="0">
                                 <div class="visible content"><i class="trash icon"></i></div>
                                 <div class="hidden content">Delete</div>
@@ -54,8 +56,8 @@
             </tbody>
             <tfoot class="full-width">
                 <tr>
-                    <th colspan="6">
-                        <a class="ui right floated small primary labeled icon button"href="{{ path('admin_manufacturer_new') }}">
+                    <th colspan="7">
+                        <a class="ui right floated small primary labeled icon button"href="{{ path('admin_product_new') }}">
                             <i class="star icon"></i>
                             New
                         </a>
@@ -64,6 +66,6 @@
             </tfoot>
         </table>
     </div>
-</div>
 
+</div>
 {% endblock %}

@@ -32,7 +32,7 @@ class ProductController extends Controller
     {
         $products = $this->get('app.product.repository')->findAll();
 
-        return $this->render('product/index.html.twig', [
+        return $this->render('@App/product/index.html.twig', [
             'products' => $products,
         ]);
     }
@@ -61,7 +61,7 @@ class ProductController extends Controller
             return $this->redirectToRoute('admin_product_index');
         }
 
-        return $this->render('product/new.html.twig', array(
+        return $this->render('@App/product/new.html.twig', array(
             'form' => $form->createView(),
         ));
     }
@@ -91,7 +91,7 @@ class ProductController extends Controller
             return $this->redirectToRoute('admin_product_index');
         }
 
-        return $this->render('product/edit.html.twig', [
+        return $this->render('@App/product/edit.html.twig', [
             'form' => $form->createView(),
         ]);
     }

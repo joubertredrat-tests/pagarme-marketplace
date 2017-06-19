@@ -32,7 +32,7 @@ class ManufacturerController extends Controller
     {
         $manufacturers = $this->get('app.manufacturer.repository')->findAll();
 
-        return $this->render('manufacturer/index.html.twig', [
+        return $this->render('@App/manufacturer/index.html.twig', [
             'manufacturers' => $manufacturers,
         ]);
     }
@@ -63,7 +63,7 @@ class ManufacturerController extends Controller
             return $this->redirectToRoute('admin_manufacturer_index');
         }
 
-        return $this->render('manufacturer/new.html.twig', [
+        return $this->render('@App/manufacturer/new.html.twig', [
             'form' => $form->createView(),
         ]);
     }
@@ -93,7 +93,7 @@ class ManufacturerController extends Controller
             return $this->redirectToRoute('admin_manufacturer_index');
         }
 
-        return $this->render('manufacturer/edit.html.twig', [
+        return $this->render('@App/manufacturer/edit.html.twig', [
             'form' => $form->createView(),
         ]);
     }
