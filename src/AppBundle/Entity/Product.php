@@ -1,12 +1,20 @@
 <?php
+/**
+ * Pagar.me develop exam
+ *
+ * @author Joubert RedRat <me+github@redrat.com.br>
+ * @copyright 2017, Pagar.me
+ * @link https://pagar.me
+ */
 
 namespace AppBundle\Entity;
 
-use AppBundle\Entity\Manufacturer;
 use AppBundle\Entity\Traits\DateTime;
 
 /**
- * Product
+ * Product Entity
+ *
+ * @package AppBundle\Entity
  */
 class Product
 {
@@ -91,6 +99,8 @@ class Product
     }
 
     /**
+     * Get product Manufacturer
+     *
      * @return Manufacturer
      */
     public function getManufacturer(): ?Manufacturer
@@ -99,6 +109,8 @@ class Product
     }
 
     /**
+     * Set product Manufacturer
+     *
      * @param Manufacturer $manufacturer
      */
     public function setManufacturer(Manufacturer $manufacturer)
