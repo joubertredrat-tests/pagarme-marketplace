@@ -2,3 +2,6 @@ app_admin_manufacturer:
     resource: "@AppBundle/Resources/config/routing/manufacturer.yml"
     prefix:   /admin/manufacturer
 
+app_admin_product:
+    resource: "@AppBundle/Resources/config/routing/product.yml"
+    prefix:   /admin/product

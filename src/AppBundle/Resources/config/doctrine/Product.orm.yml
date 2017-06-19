@@ -1,0 +1,33 @@
+AppBundle\Entity\Product:
+    type: entity
+    table: null
+    repositoryClass: AppBundle\Repository\ProductRepository
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        createdAt:
+            type: datetime
+        updatedAt:
+            type: datetime
+            nullable: true
+        name:
+            type: string
+            length: 255
+        price:
+            type: decimal
+            precision: 10
+            scale: '2'
+    lifecycleCallbacks:
+            prePersist: [ setCreatedAt ]
+            preUpdate: [ setUpdatedAt ]
+    manyToOne:
+        manufacturer:
+            targetEntity: AppBundle\Entity\Manufacturer
+            inversedBy: products
+            joinColumn:
+                name: manufacturer_id
+                referencedColumnName: id
