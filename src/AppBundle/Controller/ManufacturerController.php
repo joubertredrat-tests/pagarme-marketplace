@@ -24,19 +24,17 @@ use Symfony\Component\HttpFoundation\Response;
 class ManufacturerController extends Controller
 {
     /**
-     * Lists all manufacturer entities.
+     * Lists all Manufacturer entities
      *
      * @return Response
      */
     public function indexAction()
     {
-        $em = $this->getDoctrine()->getManager();
+        $manufacturers = $this->get('app.manufacturer.repository')->findAll();
 
-        $manufacturers = $em->getRepository('AppBundle:Manufacturer')->findAll();
-
-        return $this->render('manufacturer/index.html.twig', array(
+        return $this->render('manufacturer/index.html.twig', [
             'manufacturers' => $manufacturers,
-        ));
+        ]);
     }
 
     /**
@@ -65,25 +63,59 @@ class ManufacturerController extends Controller
             return $this->redirectToRoute('admin_manufacturer_index');
         }
 
-        return $this->render('manufacturer/new.html.twig', array(
+        return $this->render('manufacturer/new.html.twig', [
             'form' => $form->createView(),
-        ));
+        ]);
     }
 
     /**
-     * Manufacturer delete route
+     * Displays a form to edit an existing manufacturer entity
+     *
+     * @param Request $request
+     * @param Manufacturer $manufacturer
+     * @return RedirectResponse|Response
+     */
+    public function editAction(Request $request, Manufacturer $manufacturer)
+    {
+        $form = $this->createForm('AppBundle\Form\ManufacturerType', $manufacturer);
+
+        if ($request->isMethod(Request::METHOD_POST)) {
+            $form->handleRequest($request);
+            $manufacturer = $form->getData();
+
+            $this
+                ->get('app.manufacturer.repository')
+                ->update($manufacturer)
+            ;
+
+            $this->addFlash('positive', 'Manufacturer updated');
+
+            return $this->redirectToRoute('admin_manufacturer_index');
+        }
+
+        return $this->render('manufacturer/edit.html.twig', [
+            'form' => $form->createView(),
+        ]);
+    }
+
+    /**
+     * Deletes a Manufacturer entity
      *
      * @param Manufacturer $manufacturer
      * @return RedirectResponse
      */
     public function deleteAction(Manufacturer $manufacturer)
     {
-        $this
-            ->get('app.manufacturer.repository')
-            ->delete($manufacturer)
-        ;
+        if ($manufacturer->getProducts()) {
+            $this->addFlash('negative', 'You can not delete Manufacturer while have products');
+        } else {
+            $this
+                ->get('app.manufacturer.repository')
+                ->delete($manufacturer)
+            ;
 
-        $this->addFlash('positive', 'Manufacturer removed');
+            $this->addFlash('positive', 'Manufacturer removed');
+        }
 
         return $this->redirectToRoute('admin_manufacturer_index');
     }

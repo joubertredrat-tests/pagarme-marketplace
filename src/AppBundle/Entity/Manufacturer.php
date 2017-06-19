@@ -9,7 +9,9 @@
 
 namespace AppBundle\Entity;
 
+use AppBundle\Entity\Product;
 use AppBundle\Entity\Traits\DateTime;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Manufacturer Entity
@@ -29,6 +31,16 @@ class Manufacturer
      * @var string
      */
     private $name;
+
+    /**
+     * @var ArrayCollection
+     */
+    private $products;
+
+    public function __construct()
+    {
+        $this->products = new ArrayCollection();
+    }
 
     /**
      * Get id
@@ -61,5 +73,25 @@ class Manufacturer
     public function getName()
     {
         return $this->name;
+    }
+
+    /**
+     * Get Products
+     *
+     * @return ArrayCollection
+     */
+    public function getProducts()
+    {
+        return $this->products->getValues();
+    }
+
+    /**
+     * Count products from this manufacturer
+     *
+     * @return int
+     */
+    public function countProducts(): int
+    {
+        return count($this->getProducts());
     }
 }

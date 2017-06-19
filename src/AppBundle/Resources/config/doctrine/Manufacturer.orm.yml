@@ -9,14 +9,18 @@ AppBundle\Entity\Manufacturer:
             generator:
                 strategy: AUTO
     fields:
-        name:
-            type: string
-            length: 255
         createdAt:
             type: datetime
         updatedAt:
             type: datetime
             nullable: true
+        name:
+            type: string
+            length: 255
     lifecycleCallbacks:
             prePersist: [ setCreatedAt ]
             preUpdate: [ setUpdatedAt ]
+    oneToMany:
+        products:
+            targetEntity: AppBundle\Entity\Product
+            mappedBy: manufacturer

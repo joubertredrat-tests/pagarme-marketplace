@@ -21,6 +21,7 @@
                 <tr>
                     <th>ID</th>
                     <th>Name</th>
+                    <th>Products</th>
                     <th>Created at</th>
                     <th>Updated at</th>
                     <th>Actions</th>
@@ -31,26 +32,35 @@
                 <tr>
                     <td class="collapsing">{{ manufacturer.id }}</td>
                     <td>{{ manufacturer.name }}</td>
+                    <td>{{ manufacturer.countProducts }}</td>
                     <td>{{ manufacturer.createdAt|date('d/m/Y H:i:s') }}</td>
                     <td>{% if manufacturer.updatedAt %} {{ manufacturer.updatedAt|date('d/m/Y H:i:s') }} {% endif %}</td>
                     <td class="collapsing">
-                        <a href="{{ path('admin_manufacturer_delete', { 'id': manufacturer.id }) }}" class="ui right floated small negative labeled icon button">
-                            <i class="trash icon"></i>
-                            Delete
+                        <a href="{{ path('admin_manufacturer_edit', { 'id': manufacturer.id }) }}">
+                            <div class="ui animated button orange" tabindex="0">
+                                <div class="visible content"><i class="pencil icon"></i></div>
+                                <div class="hidden content">Edit</div>
+                            </div>
+                        </a>
+                        <a href="{{ path('admin_manufacturer_delete', { 'id': manufacturer.id }) }}">
+                            <div class="ui animated button negative" tabindex="0">
+                                <div class="visible content"><i class="trash icon"></i></div>
+                                <div class="hidden content">Delete</div>
+                            </div>
                         </a>
                     </td>
                 </tr>
             {% endfor %}
             </tbody>
             <tfoot class="full-width">
-            <tr>
-                <th colspan="4">
-                    <a class="ui right floated small primary labeled icon button"href="{{ path('admin_manufacturer_new') }}">
-                        <i class="star icon"></i>
-                        New
-                    </a>
-                </th>
-            </tr>
+                <tr>
+                    <th colspan="6">
+                        <a class="ui right floated small primary labeled icon button"href="{{ path('admin_manufacturer_new') }}">
+                            <i class="star icon"></i>
+                            New
+                        </a>
+                    </th>
+                </tr>
             </tfoot>
         </table>
     </div>
