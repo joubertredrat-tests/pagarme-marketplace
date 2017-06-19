@@ -1,0 +1,113 @@
+{% extends '@App/base.html.twig' %}
+
+{% block stylesheets %}
+
+<style>
+    .cart-display {
+        padding: 10px 20px;
+    }
+</style>
+
+{% endblock %}
+
+{% block body %}
+
+<div class="column">
+    <div class="row">
+        {{ include('@App/menu.html.twig') }}
+    </div>
+
+    <div class="row">
+        {{ include('@App/messages.html.twig') }}
+    </div>
+
+    <div class="row">
+        <h1>Shopping Cart</h1>
+    </div>
+
+    <br />
+
+    <div class="row">
+        <div class="ui grid">
+            <div class="eleven wide column">
+                <table class="ui celled table">
+                    <thead>
+                    <tr>
+                        <th>Product</th>
+                        <th>Price</th>
+                        <th>Qtde</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for product in products %}
+                        <tr>
+                            <td>{{ product.name }}</td>
+                            <td>{{ product.price }}</td>
+                            <td class="collapsing">
+                                <div class="ui input">
+                                    <input
+                                        name="qde[{{ product.id }}]"
+                                        type="number"
+                                        min="0"
+                                        value="0"
+                                        class="product-qtde"
+                                        data-id="{{ product.id }}"
+                                        data-price="{{ product.price }}"
+                                    >
+                                </div>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="five wide column">
+                <div class="ui celled table cart-display">
+                    <h3>Your cart</h3>
+                    {% for product in products %}
+                        <p>{{ product.name }} (<strong id="display-product-qtde-{{ product.id }}">0</strong>) : <strong id="display-product-price-{{ product.id }}">00.00</strong></p>
+                    {% endfor %}
+                    <p>Delivery tax: <strong>45.00</strong></p>
+                    <h2>Total: <span id="display-product-price-total">00.00</span></h2>
+                </div>
+                <button class="massive ui button green">
+                    <i class="shop icon"></i> Checkout
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block javascripts %}
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script>
+        $( document ).ready(function() {
+            $('.product-qtde').bind('change', function() {
+
+                var amount = $(this).val() * $(this).data('price');
+
+                $('#display-product-qtde-' + $(this).data('id')).html($(this).val());
+                $('#display-product-price-' + $(this).data('id')).html(amount.toFixed(2));
+
+                displayTotal();
+            });
+        });
+
+        /**
+         * Calculate and display total
+         */
+        function displayTotal() {
+            var amount = 0;
+            $('.product-qtde').each(function(i, obj) {
+                amount += (obj.getAttribute('data-price') * obj.value);
+            });
+
+            amount += 45;
+
+            $('#display-product-price-total').html(amount.toFixed(2));
+        }
+    </script>
+{% endblock %}
