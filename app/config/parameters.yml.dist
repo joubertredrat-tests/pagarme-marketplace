@@ -15,5 +15,9 @@ parameters:
     mailer_user: ~
     mailer_password: ~
 
+    pagarme_api_url: 'https://api.pagar.me'
+    pagarme_api_key: your-api-key
+    pagarme_encryption_key: your-encryption-key
+
     # A secret key that's used to generate certain security-related tokens
     secret: ThisTokenIsNotSoSecretChangeIt

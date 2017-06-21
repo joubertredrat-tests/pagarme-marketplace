@@ -29,3 +29,5 @@ services:
             - "@app.purchase.repository"
             - "@app.purchase_product.repository"
             - "@app.product.repository"
+        calls:
+            - ["setPagarmeApiKey", ["%pagarme_api_key%"]]

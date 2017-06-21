@@ -12,3 +12,8 @@ cart_pay:
     path: /{id}/pay
     defaults: { _controller: "AppBundle:Cart:pay" }
     methods:  GET
+
+cart_transaction:
+    path: /{id}/transaction
+    defaults: { _controller: "AppBundle:Cart:transaction" }
+    methods:  POST

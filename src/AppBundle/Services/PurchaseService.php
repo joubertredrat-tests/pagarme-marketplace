@@ -16,6 +16,7 @@ use AppBundle\Entity\Purchase;
 use AppBundle\Repository\ProductRepository;
 use AppBundle\Repository\PurchaseProductRepository;
 use AppBundle\Repository\PurchaseRepository;
+use PagarMe\Sdk\PagarMe;
 
 /**
  * Purchase Service
@@ -40,6 +41,11 @@ class PurchaseService
     private $productRepository;
 
     /**
+     * @var PagarMe
+     */
+    private $pagarMe;
+
+    /**
      * PurchaseService constructor
      *
      * @param PurchaseRepository $purchaseRepository
@@ -54,6 +60,16 @@ class PurchaseService
         $this->purchaseRepository = $purchaseRepository;
         $this->purchaseProductRepository = $purchaseProductRepository;
         $this->productRepository = $productRepository;
+    }
+
+    /**
+     * Set PagarMe data
+     *
+     * @param string $apiKey
+     */
+    public function setPagarmeApiKey(string $apiKey)
+    {
+        $this->pagarMe = new PagarMe($apiKey);
     }
 
     /**
@@ -113,5 +129,34 @@ class PurchaseService
         $this->purchaseRepository->update($purchase);
 
         return $purchase;
+    }
+
+    /**
+     * Process transactions on Pagar.me
+     *
+     * @param Purchase $purchase
+     * @param string $transactionToken
+     * @return bool
+     */
+    public function transactionPagarme(Purchase $purchase, string $transactionToken): bool
+    {
+        $transaction = $this
+            ->pagarMe
+            ->transaction()
+            ->get($transactionToken)
+        ;
+
+        $this
+            ->pagarMe
+            ->transaction()
+            ->capture(
+                $transaction,
+                str_replace('.', '', $purchase->getAmount())
+        );
+
+        $purchase->setStatus(Purchase::STATUS_PAID);
+        $this->purchaseRepository->update($purchase);
+
+        return true;
     }
 }

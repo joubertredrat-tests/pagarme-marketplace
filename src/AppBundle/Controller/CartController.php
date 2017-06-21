@@ -9,10 +9,9 @@
 
 namespace AppBundle\Controller;
 
-use AppBundle\Builder\PurchaseBuilder;
-use AppBundle\Entity\Product;
 use AppBundle\Entity\Purchase;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -60,11 +59,40 @@ class CartController extends Controller
     /**
      * Pay purchase
      *
+     * @param Purchase $purchase
+     * @return Response
+     */
+    public function payAction(Purchase $purchase)
+    {
+        return $this->render('@App/cart/pay.html.twig', [
+            'purchase' => $purchase,
+            'deliveryTax' => Purchase::DELIVERY_TAX,
+            'encryptionKey' => $this->getParameter('pagarme_encryption_key'),
+        ]);
+    }
+
+    /**
+     * Process transaction from Pagar.me
+     *
      * @param Request $request
      * @param Purchase $purchase
+     * @return JsonResponse
      */
-    public function payAction(Request $request, Purchase $purchase)
+    public function transactionAction(Request $request, Purchase $purchase)
     {
-        dump($purchase);die;
+        $transactionToken = $request->get('transactionToken');
+
+        if (is_null($transactionToken)) {
+            return new JsonResponse(
+                ['message' => 'transactionToken is required'],
+                Response::HTTP_BAD_REQUEST
+            );
+        }
+
+        $purchaseService = $this->get('app.purchase.service');
+
+        $purchaseService->transactionPagarme($purchase, $transactionToken);
+
+        return new JsonResponse(['message' => 'Done']);
     }
 }
