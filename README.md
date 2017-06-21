@@ -6,7 +6,7 @@ Marketplace for Pagarme devel test
 
 1. Fork this repository.
 2. Run `composer install`.
-3. Set database informations after composer install.
+3. Set database and Pagarme parameters after composer install.
 4. Create schema with `php bin/console doctrine:schema:create` command.
 5. Run `php bin/console app:seed-data` to create sample data.
 6. Run server `php bin/console server:run -vvv`
