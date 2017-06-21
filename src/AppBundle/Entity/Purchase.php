@@ -34,6 +34,11 @@ class Purchase
     const DELIVERY_TAX = 45.00;
 
     /**
+     * Owner tax in percent converted to decimal
+     */
+    const OWNER_TAX = 0.15;
+
+    /**
      * @var int
      */
     private $id;

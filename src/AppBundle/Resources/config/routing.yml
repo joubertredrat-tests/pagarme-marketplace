@@ -9,3 +9,7 @@ app_admin_manufacturer:
 app_admin_product:
     resource: "@AppBundle/Resources/config/routing/product.yml"
     prefix: /admin/product
+
+app_admin_purchase:
+    resource: "@AppBundle/Resources/config/routing/purchase.yml"
+    prefix: /admin/purchase

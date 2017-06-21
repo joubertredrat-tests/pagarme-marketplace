@@ -1,0 +1,10 @@
+admin_purchase_index:
+    path:     /
+    defaults: { _controller: "AppBundle:Purchase:index" }
+    methods:  GET
+
+admin_purchase_show:
+    path:     /{id}/show
+    defaults: { _controller: "AppBundle:Purchase:show" }
+    methods:  GET
+

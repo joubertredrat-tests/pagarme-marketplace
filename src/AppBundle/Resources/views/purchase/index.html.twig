@@ -1,0 +1,59 @@
+{% extends '@App/base.html.twig' %}
+
+{% block body %}
+
+    <div class="column">
+        <div class="row">
+            {{ include('@App/menu.html.twig') }}
+        </div>
+
+        <div class="row">
+            {{ include('@App/messages.html.twig') }}
+        </div>
+
+        <div class="row">
+            <h1>Purchases</h1>
+        </div>
+
+        <div class="row">
+            <table class="ui celled table">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Amount</th>
+                        <th>Status</th>
+                        <th>Created at</th>
+                        <th>Updated at</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for purchase in purchases %}
+                    <tr>
+                        <td class="collapsing">{{ purchase.id }}</td>
+                        <td>{{ purchase.amount }}</td>
+                        <td>{{ purchase.status|capitalize }}</td>
+                        <td>{{ purchase.createdAt|date('d/m/Y H:i:s') }}</td>
+                        <td>{% if purchase.updatedAt %} {{ purchase.updatedAt|date('d/m/Y H:i:s') }} {% endif %}</td>
+                        <td class="collapsing">
+                            <a href="{{ path('admin_purchase_show', { 'id': purchase.id }) }}">
+                                <div class="ui animated button teal" tabindex="0">
+                                    <div class="visible content"><i class="area chart icon"></i></div>
+                                    <div class="hidden content">View</div>
+                                </div>
+                            </a>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+                <tfoot class="full-width">
+                <tr>
+                    <th colspan="8">
+                    </th>
+                </tr>
+                </tfoot>
+            </table>
+        </div>
+
+    </div>
+{% endblock %}

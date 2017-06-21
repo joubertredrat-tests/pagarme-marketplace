@@ -11,8 +11,10 @@ namespace AppBundle\Services;
 
 use AppBundle\Builder\PurchaseBuilder;
 use AppBundle\Builder\PurchaseProductBuilder;
+use AppBundle\Entity\Manufacturer;
 use AppBundle\Entity\Product;
 use AppBundle\Entity\Purchase;
+use AppBundle\Entity\PurchaseProduct;
 use AppBundle\Repository\ProductRepository;
 use AppBundle\Repository\PurchaseProductRepository;
 use AppBundle\Repository\PurchaseRepository;
@@ -158,5 +160,44 @@ class PurchaseService
         $this->purchaseRepository->update($purchase);
 
         return true;
+    }
+
+    /**
+     * Create array data for report on view
+     *
+     * @param Purchase $purchase
+     * @return array
+     */
+    public function getProductDataView(Purchase $purchase): array
+    {
+        $array = [];
+
+        /** @var PurchaseProduct $purchaseProduct */
+        foreach ($purchase->getProducts() as $purchaseProduct) {
+
+            $row = [];
+            $row['name'] = $purchaseProduct->getProduct()->getName();
+            $row['price'] = $purchaseProduct->getPrice();
+            $row['quantity'] = $purchaseProduct->getQuantity();
+
+            if ($purchaseProduct->getProduct()->getManufacturer() instanceof Manufacturer) {
+                $row['manufacturer'] = $purchaseProduct->getProduct()->getManufacturer()->getName();
+
+                $total = $purchaseProduct->getPrice() * $purchaseProduct->getQuantity();
+                $paymentOwner = $total * Purchase::OWNER_TAX;
+                $paymentManufacturer = $total - $paymentOwner;
+
+                $row['paymentOwner'] = $paymentOwner;
+                $row['paymentManufacturer'] = $paymentManufacturer;
+            } else {
+                $row['manufacturer'] = '';
+                $row['paymentOwner'] = $purchaseProduct->getPrice() * $purchaseProduct->getQuantity();
+                $row['paymentManufacturer'] = '';
+            }
+
+            $array[] = $row;
+        }
+
+        return $array;
     }
 }

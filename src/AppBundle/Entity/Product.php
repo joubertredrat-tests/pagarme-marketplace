@@ -107,7 +107,7 @@ class Product
      *
      * @return Manufacturer
      */
-    public function getManufacturer(): ?Manufacturer
+    public function getManufacturer()
     {
         return $this->manufacturer;
     }

@@ -1,0 +1,58 @@
+{% extends '@App/base.html.twig' %}
+
+{% block body %}
+
+    <div class="column">
+        <div class="row">
+            {{ include('@App/menu.html.twig') }}
+        </div>
+
+        <div class="row">
+            {{ include('@App/messages.html.twig') }}
+        </div>
+
+        <div class="row">
+            <h1>Purchase {{ purchase.id }}</h1>
+        </div>
+
+        <div class="row">
+            <table class="ui celled table">
+                <thead>
+                <tr>
+                    <th>Product</th>
+                    <th>Price</th>
+                    <th>Qtde</th>
+                    <th>Manufacturer</th>
+                    <th>Payment to Owner</th>
+                    <th>Payment to Manufacturer</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for product in products %}
+                    <tr>
+                        <td>{{ product.name }}</td>
+                        <td class="collapsing">{{ product.price }}</td>
+                        <td class="collapsing">{{ product.quantity }}</td>
+                        <td>{{ product.manufacturer }}</td>
+                        <td>{{ product.paymentOwner|number_format(2, '.', '') }}</td>
+                        <td>{% if product.paymentManufacturer %} {{ product.paymentManufacturer|number_format(2, '.', '') }} {% endif %}</td>
+                    </tr>
+                {% endfor %}
+                <tr>
+                    <td>Delivery Tax</td>
+                    <td>{{ deliveryTax|number_format(2, '.', '') }}</td>
+                    <td colspan="4"></td>
+                </tr>
+                </tbody>
+                <tfoot class="full-width">
+                <tr>
+                    <th colspan="6">
+                        <strong>TOTAL: {{ purchase.amount }}</strong>
+                    </th>
+                </tr>
+                </tfoot>
+            </table>
+        </div>
+
+    </div>
+{% endblock %}
