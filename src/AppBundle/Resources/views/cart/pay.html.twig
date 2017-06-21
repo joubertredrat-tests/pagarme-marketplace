@@ -66,9 +66,17 @@
             <div class="five wide column">
                 <div class="ui celled table cart-display">
                     <h3>Payment</h3>
-                    <button id="pagar-me-checkout" class="massive ui button green">
-                        <i class="money icon"></i> Pay now!
-                    </button>
+
+                    {% if purchase.status == statusPaid %}
+                        <button class="massive ui button blue">
+                            <i class="money icon"></i> Paid
+                        </button>
+                    {% else %}
+                        <button id="pagar-me-checkout" class="massive ui button green">
+                            <i class="money icon"></i> Pay now!
+                        </button>
+                    {% endif %}
+
                     <br />
                     <br />
                     <p></p>
@@ -99,6 +107,9 @@
                         url: '{{ url('cart_transaction', { 'id': purchase.id}) }}',
                         data: {
                             'transactionToken': data.token
+                        },
+                        success: function() {
+                            location.reload();
                         }
                     });
                 }

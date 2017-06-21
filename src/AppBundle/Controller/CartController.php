@@ -68,6 +68,7 @@ class CartController extends Controller
             'purchase' => $purchase,
             'deliveryTax' => Purchase::DELIVERY_TAX,
             'encryptionKey' => $this->getParameter('pagarme_encryption_key'),
+            'statusPaid' => Purchase::STATUS_PAID
         ]);
     }
 
