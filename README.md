@@ -1,6 +1,7 @@
 # pagarme-marketplace
 Marketplace for Pagarme devel test
 
+More information about this develop process can be accessible in [Info](INFO.md).
 
 ### Install
 
