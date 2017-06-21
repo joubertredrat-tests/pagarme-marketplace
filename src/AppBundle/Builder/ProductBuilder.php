@@ -19,6 +19,11 @@ use AppBundle\Entity\Product;
  */
 class ProductBuilder
 {
+    /**
+     * Product entity
+     *
+     * @var Product
+     */
     private $product;
 
     /**
@@ -66,7 +71,7 @@ class ProductBuilder
     }
 
     /**
-     * Get manufacturer entity
+     * Get Product entity
      *
      * @return Product
      */
