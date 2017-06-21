@@ -27,56 +27,60 @@
 
     <br />
 
-    <div class="row">
-        <div class="ui grid">
-            <div class="eleven wide column">
-                <table class="ui celled table">
-                    <thead>
-                    <tr>
-                        <th>Product</th>
-                        <th>Price</th>
-                        <th>Qtde</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {% for product in products %}
+    <form method="post" action="{{ path('cart_add') }}" onsubmit="return simpleValidateForm();">
+        <div class="row">
+            <div class="ui grid">
+                <div class="eleven wide column">
+                    <table class="ui celled table">
+                        <thead>
                         <tr>
-                            <td>{{ product.name }}</td>
-                            <td>{{ product.price }}</td>
-                            <td class="collapsing">
-                                <div class="ui input">
-                                    <input
-                                        name="qde[{{ product.id }}]"
-                                        type="number"
-                                        min="0"
-                                        value="0"
-                                        class="product-qtde"
-                                        data-id="{{ product.id }}"
-                                        data-price="{{ product.price }}"
-                                    >
-                                </div>
-                            </td>
+                            <th>Product</th>
+                            <th>Price</th>
+                            <th>Qtde</th>
                         </tr>
-                    {% endfor %}
-                    </tbody>
-                </table>
-            </div>
-
-            <div class="five wide column">
-                <div class="ui celled table cart-display">
-                    <h3>Your cart</h3>
-                    {% for product in products %}
-                        <p>{{ product.name }} (<strong id="display-product-qtde-{{ product.id }}">0</strong>) : <strong id="display-product-price-{{ product.id }}">00.00</strong></p>
-                    {% endfor %}
-                    <p>Delivery tax: <strong>45.00</strong></p>
-                    <h2>Total: <span id="display-product-price-total">00.00</span></h2>
+                        </thead>
+                        <tbody>
+                        {% for product in products %}
+                            <tr>
+                                <td>{{ product.name }}</td>
+                                <td>{{ product.price }}</td>
+                                <td class="collapsing">
+                                    <div class="ui input">
+                                        <input
+                                            name="quantity[{{ product.id }}]"
+                                            type="number"
+                                            min="0"
+                                            value="0"
+                                            class="product-qtde"
+                                            data-id="{{ product.id }}"
+                                            data-price="{{ product.price }}"
+                                        >
+                                    </div>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
                 </div>
-                <button class="massive ui button green">
-                    <i class="shop icon"></i> Checkout
-                </button>
+
+                <div class="five wide column">
+                    <div class="ui celled table cart-display">
+                        <h3>Your cart</h3>
+                        {% for product in products %}
+                            <p>{{ product.name }} (<strong id="display-product-qtde-{{ product.id }}">0</strong>) : <strong id="display-product-price-{{ product.id }}">00.00</strong></p>
+                        {% endfor %}
+                        <p>Delivery tax: <strong>{{ deliveryTax|number_format(2, '.', '') }}</strong></p>
+                        <h2>Total: <span id="display-product-price-total">00.00</span></h2>
+                    </div>
+                    <button type="submit" class="massive ui button green">
+                        <i class="shop icon"></i> Checkout
+                    </button>
+                    <input type="hidden" name="product-price-total" id="product-price-total" value="0">
+                </div>
             </div>
         </div>
-    </div>
+    </form>
+
 </div>
 
 {% endblock %}
@@ -105,9 +109,24 @@
                 amount += (obj.getAttribute('data-price') * obj.value);
             });
 
-            amount += 45;
+            if (amount > 0) {
+                amount += {{ deliveryTax }};
+            }
 
             $('#display-product-price-total').html(amount.toFixed(2));
+            $('#product-price-total').val(amount.toFixed(2));
+        }
+
+        /**
+         * Simple validation form
+         */
+        function simpleValidateForm() {
+            if ($('#product-price-total').val() == 0) {
+                alert('Your cart are empty');
+                return false;
+            }
+
+            return confirm('Are you want finish this cart?');
         }
     </script>
 {% endblock %}

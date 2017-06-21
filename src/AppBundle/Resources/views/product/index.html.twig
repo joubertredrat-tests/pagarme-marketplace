@@ -36,7 +36,7 @@
                     <td>{{ product.name }}</td>
                     <td>{{ product.price }}</td>
                     <td>{% if product.manufacturer %} {{ product.manufacturer.name() }} {% endif %}</td>
-                    <td></td>
+                    <td>{{ product.countPurchases }}</td>
                     <td>{{ product.createdAt|date('d/m/Y H:i:s') }}</td>
                     <td>{% if product.updatedAt %} {{ product.updatedAt|date('d/m/Y H:i:s') }} {% endif %}</td>
                     <td class="collapsing">

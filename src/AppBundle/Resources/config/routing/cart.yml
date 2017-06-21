@@ -1,4 +1,14 @@
 cart_index:
-    path:     /
+    path: /
     defaults: { _controller: "AppBundle:Cart:index" }
+    methods:  GET
+
+cart_add:
+    path: /add
+    defaults: { _controller: "AppBundle:Cart:add" }
+    methods:  POST
+
+cart_pay:
+    path: /{id}/pay
+    defaults: { _controller: "AppBundle:Cart:pay" }
     methods:  GET

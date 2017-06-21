@@ -18,6 +18,7 @@ AppBundle\Entity\Purchase:
             type: decimal
             precision: 10
             scale: '2'
+            nullable: true
         deliveryTax:
             type: decimal
             precision: 10
