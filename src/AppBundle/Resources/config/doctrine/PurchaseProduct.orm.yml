@@ -9,6 +9,11 @@ AppBundle\Entity\PurchaseProduct:
             generator:
                 strategy: AUTO
     fields:
+        createdAt:
+            type: datetime
+        updatedAt:
+            type: datetime
+            nullable: true
         price:
             type: decimal
             precision: 10
