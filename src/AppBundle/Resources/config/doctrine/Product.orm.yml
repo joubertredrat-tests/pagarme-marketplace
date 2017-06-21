@@ -1,6 +1,6 @@
 AppBundle\Entity\Product:
     type: entity
-    table: null
+    table: products
     repositoryClass: AppBundle\Repository\ProductRepository
     id:
         id:
@@ -22,8 +22,8 @@ AppBundle\Entity\Product:
             precision: 10
             scale: '2'
     lifecycleCallbacks:
-            prePersist: [ setCreatedAt ]
-            preUpdate: [ setUpdatedAt ]
+        prePersist: [ setCreatedAt ]
+        preUpdate: [ setUpdatedAt ]
     manyToOne:
         manufacturer:
             targetEntity: AppBundle\Entity\Manufacturer
@@ -31,3 +31,7 @@ AppBundle\Entity\Product:
             joinColumn:
                 name: manufacturer_id
                 referencedColumnName: id
+    oneToMany:
+        purchases:
+            targetEntity: AppBundle\Entity\PurchaseProduct
+            mappedBy: product

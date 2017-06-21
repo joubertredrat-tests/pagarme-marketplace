@@ -1,6 +1,6 @@
 AppBundle\Entity\Manufacturer:
     type: entity
-    table: null
+    table: manufacturers
     repositoryClass: AppBundle\Repository\ManufacturerRepository
     id:
         id:
@@ -18,8 +18,8 @@ AppBundle\Entity\Manufacturer:
             type: string
             length: 255
     lifecycleCallbacks:
-            prePersist: [ setCreatedAt ]
-            preUpdate: [ setUpdatedAt ]
+        prePersist: [ setCreatedAt ]
+        preUpdate: [ setUpdatedAt ]
     oneToMany:
         products:
             targetEntity: AppBundle\Entity\Product
