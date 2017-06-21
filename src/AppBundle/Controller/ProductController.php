@@ -104,12 +104,16 @@ class ProductController extends Controller
      */
     public function deleteAction(Product $product)
     {
-        $this
-            ->get('app.product.repository')
-            ->delete($product)
-        ;
+        if ($product->getPurchases()) {
+            $this->addFlash('negative', 'You can not delete Product while have purchases');
+        } else {
+            $this
+                ->get('app.product.repository')
+                ->delete($product)
+            ;
 
-        $this->addFlash('positive', 'Product removed');
+            $this->addFlash('positive', 'Product removed');
+        }
 
         return $this->redirectToRoute('admin_product_index');
     }
