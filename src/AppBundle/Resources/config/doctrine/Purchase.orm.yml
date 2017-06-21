@@ -1,0 +1,35 @@
+AppBundle\Entity\Purchase:
+    type: entity
+    table: purchases
+    repositoryClass: AppBundle\Repository\PurchaseRepository
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        createdAt:
+            type: datetime
+        updatedAt:
+            type: datetime
+            nullable: true
+        amount:
+            type: decimal
+            precision: 10
+            scale: '2'
+        deliveryTax:
+            type: decimal
+            precision: 10
+            scale: '2'
+            nullable: true
+        status:
+            type: string
+            length: 20
+    lifecycleCallbacks:
+        prePersist: [ setCreatedAt ]
+        preUpdate: [ setUpdatedAt ]
+    oneToMany:
+        products:
+            targetEntity: AppBundle\Entity\PurchaseProduct
+            mappedBy: purchase

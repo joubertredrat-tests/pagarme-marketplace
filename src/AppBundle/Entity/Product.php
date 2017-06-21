@@ -10,6 +10,7 @@
 namespace AppBundle\Entity;
 
 use AppBundle\Entity\Traits\DateTime;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Product Entity
@@ -41,6 +42,11 @@ class Product
     private $manufacturer;
 
     /**
+     * @var ArrayCollection
+     */
+    private $purchases;
+
+    /**
      * Get id
      *
      * @return int
@@ -54,7 +60,6 @@ class Product
      * Set name
      *
      * @param string $name
-     *
      * @return Product
      */
     public function setName($name)
@@ -78,7 +83,6 @@ class Product
      * Set price
      *
      * @param string $price
-     *
      * @return Product
      */
     public function setPrice($price)
@@ -116,5 +120,48 @@ class Product
     public function setManufacturer(Manufacturer $manufacturer)
     {
         $this->manufacturer = $manufacturer;
+    }
+
+    /**
+     * Add purchase
+     *
+     * @param PurchaseProduct $purchase
+     * @return Product
+     */
+    public function addPurchase(PurchaseProduct $purchase)
+    {
+        $this->purchases[] = $purchase;
+
+        return $this;
+    }
+
+    /**
+     * Remove purchase
+     *
+     * @param PurchaseProduct $purchase
+     */
+    public function removePurchase(PurchaseProduct $purchase)
+    {
+        $this->purchases->removeElement($purchase);
+    }
+
+    /**
+     * Get purchases
+     *
+     * @return ArrayCollection
+     */
+    public function getPurchases()
+    {
+        return $this->purchases->getValues();
+    }
+
+    /**
+     * Count purchases from this product
+     *
+     * @return int
+     */
+    public function countPurchases(): int
+    {
+        return count($this->getPurchases());
     }
 }

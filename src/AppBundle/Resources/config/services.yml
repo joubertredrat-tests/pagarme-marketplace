@@ -10,3 +10,15 @@ services:
         factory: ["@doctrine.orm.entity_manager", getRepository]
         arguments:
             - AppBundle\Entity\Product
+
+    app.purchase.repository:
+        class: AppBundle\Repository\PurchaseRepository
+        factory: ["@doctrine.orm.entity_manager", getRepository]
+        arguments:
+            - AppBundle\Entity\Purchase
+
+    app.purchase_product.repository:
+        class: AppBundle\Repository\PurchaseProductRepository
+        factory: ["@doctrine.orm.entity_manager", getRepository]
+        arguments:
+            - AppBundle\Entity\PurchaseProduct

@@ -37,11 +37,6 @@ class Manufacturer
      */
     private $products;
 
-    public function __construct()
-    {
-        $this->products = new ArrayCollection();
-    }
-
     /**
      * Get id
      *
@@ -93,5 +88,28 @@ class Manufacturer
     public function countProducts(): int
     {
         return count($this->getProducts());
+    }
+
+    /**
+     * Add product
+     *
+     * @param Product $product
+     * @return Manufacturer
+     */
+    public function addProduct(Product $product)
+    {
+        $this->products[] = $product;
+
+        return $this;
+    }
+
+    /**
+     * Remove product
+     *
+     * @param Product $product
+     */
+    public function removeProduct(Product $product)
+    {
+        $this->products->removeElement($product);
     }
 }

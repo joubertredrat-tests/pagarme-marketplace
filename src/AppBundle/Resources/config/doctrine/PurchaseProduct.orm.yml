@@ -1,0 +1,33 @@
+AppBundle\Entity\PurchaseProduct:
+    type: entity
+    table: purchases_products
+    repositoryClass: AppBundle\Repository\PurchaseProductRepository
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        price:
+            type: decimal
+            precision: 10
+            scale: '2'
+        quantity:
+            type: integer
+    lifecycleCallbacks:
+        prePersist: [ setCreatedAt ]
+        preUpdate: [ setUpdatedAt ]
+    manyToOne:
+        purchase:
+            targetEntity: AppBundle\Entity\Purchase
+            inversedBy: products
+            joinColumn:
+                name: purchase_id
+                referencedColumnName: id
+        product:
+            targetEntity: AppBundle\Entity\Product
+            inversedBy: purchases
+            joinColumn:
+                name: product_id
+                referencedColumnName: id
